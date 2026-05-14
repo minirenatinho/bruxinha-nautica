@@ -7,8 +7,13 @@ import java.awt.image.ImageObserver;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.ImageIcon;
+import negocios.Dificuldade;
 
-public abstract class PersonagemAbstrato {
+public class Personagem {
+   protected static final int TIROS_SECUNDARIOS_APOS_DISPARO = 3;
+
+   private final Dificuldade dificuldade;
+
    private Image imagem;
    private int x;
    private int y;
@@ -22,12 +27,13 @@ public abstract class PersonagemAbstrato {
    private Carta[] baralho;
    private String tipo = "Gráficos\\Agua.png";
 
-   public PersonagemAbstrato() {
+   public Personagem(Dificuldade dificuldade) {
+      this.dificuldade = dificuldade;
       ImageIcon adds = new ImageIcon("Gráficos\\Personagem.png");
       this.imagem = adds.getImage();
       this.altura = this.imagem.getHeight((ImageObserver)null);
       this.largura = this.imagem.getWidth((ImageObserver)null);
-      this.tiros = new ArrayList();
+      this.tiros = new ArrayList<>();
       this.x = 100;
       this.y = 1;
       this.baralho = new Carta[5];
@@ -40,54 +46,80 @@ public abstract class PersonagemAbstrato {
       this.isVivo = true;
    }
 
-   public abstract void keyPressed(KeyEvent var1);
+   public void keyPressed(KeyEvent butao) {
+      int code = butao.getKeyCode();
+      if (code == KeyEvent.VK_UP) {
+         if (this.dificuldade == Dificuldade.DIFICIL) {
+            this.disparoComTirosSecundariosPadrao();
+         }
+         this.setyR(-3);
+         this.setUpped(true);
+      }
+
+      if (code == KeyEvent.VK_LEFT) {
+         this.cartaE();
+      }
+
+      if (code == KeyEvent.VK_RIGHT) {
+         this.cartaD();
+      }
+
+      if (code == KeyEvent.VK_SPACE && this.dificuldade == Dificuldade.FACIL) {
+         this.disparoComTirosSecundariosPadrao();
+      }
+
+      this.atualizarTipoPelaCartaSelecionada();
+   }
+
+   private void atualizarTipoPelaCartaSelecionada() {
+      Carta[] b = this.baralho;
+      if (b[0].isSelecionada()) {
+         this.setTipo("Gráficos\\Agua.png");
+      } else if (b[1].isSelecionada()) {
+         this.setTipo("Gráficos\\Fogo.png");
+      } else if (b[2].isSelecionada()) {
+         this.setTipo("Gráficos\\Ar.png");
+      } else if (b[3].isSelecionada()) {
+         this.setTipo("Gráficos\\Elet.png");
+      } else if (b[4].isSelecionada()) {
+         this.setTipo("Gráficos\\Terra.png");
+      }
+   }
 
    public void atirar() {
       this.tiros.add(new Tiro(this.x + this.largura - 20, this.y - 20, this.tipo, ""));
    }
 
+   protected void marcarPrimeirosTirosComoSecundarios(int quantidadeMax) {
+      int n = Math.min(quantidadeMax, this.tiros.size());
+      for (int i = 0; i < n; ++i) {
+         this.tiros.get(i).setSec(true);
+      }
+   }
+
+   protected void disparoComTirosSecundariosPadrao() {
+      this.atirar();
+      this.marcarPrimeirosTirosComoSecundarios(TIROS_SECUNDARIOS_APOS_DISPARO);
+   }
+
    public void cartaE() {
-      int ope = 0;
-
-      for(int i = 0; i < this.baralho.length; ++i) {
-         if (this.baralho[i].isSelecionada()) {
-            ope = i + 1;
-         }
-      }
-
-      for(int i = 0; i < ope; ++i) {
-         if (this.baralho[i].isSelecionada()) {
-            this.baralho[i].setSelecionada(false);
-            if (i > 0) {
-               this.baralho[i - 1].setSelecionada(true);
-            } else {
-               this.baralho[4].setSelecionada(true);
-            }
-         }
-      }
-
+      this.moverSelecaoCarta(-1);
    }
 
    public void cartaD() {
-      int ope = 0;
+      this.moverSelecaoCarta(1);
+   }
 
-      for(int i = 0; i < this.baralho.length; ++i) {
-         if (this.baralho[i].isSelecionada()) {
-            ope = i + 1;
-         }
-      }
-
-      for(int i = 0; i < ope; ++i) {
+   private void moverSelecaoCarta(int delta) {
+      int n = this.baralho.length;
+      for (int i = 0; i < n; ++i) {
          if (this.baralho[i].isSelecionada()) {
             this.baralho[i].setSelecionada(false);
-            if (i < 4) {
-               this.baralho[i + 1].setSelecionada(true);
-            } else {
-               this.baralho[0].setSelecionada(true);
-            }
+            int j = (i + delta + n) % n;
+            this.baralho[j].setSelecionada(true);
+            return;
          }
       }
-
    }
 
    public void gravidade() {
@@ -110,7 +142,7 @@ public abstract class PersonagemAbstrato {
 
    public void keyReleased(KeyEvent butao) {
       int code = butao.getKeyCode();
-      if (code == 38) {
+      if (code == KeyEvent.VK_UP) {
          this.yR = 0;
          this.upped = false;
       }
@@ -215,5 +247,9 @@ public abstract class PersonagemAbstrato {
 
    public void setTipo(String tipo) {
       this.tipo = tipo;
+   }
+
+   public Dificuldade getDificuldade() {
+      return this.dificuldade;
    }
 }

@@ -2,36 +2,37 @@ package dados;
 
 import java.awt.Image;
 import javax.swing.ImageIcon;
+import negocios.Dificuldade;
 
 public class Usuario {
-   private PersonagemFacil pFacil;
-   private PersonagemDificil pDificil;
+   private Personagem pFacil;
+   private Personagem pDificil;
    private String nome;
    private Image imagem;
 
    public Usuario(String nome, String arquivo) {
       ImageIcon adds = new ImageIcon(arquivo);
       this.imagem = adds.getImage();
-      this.pFacil = new PersonagemFacil();
+      this.pFacil = new Personagem(Dificuldade.FACIL);
       this.pFacil.setImagem(this.imagem);
-      this.pDificil = new PersonagemDificil();
+      this.pDificil = new Personagem(Dificuldade.DIFICIL);
       this.pDificil.setImagem(this.imagem);
       this.nome = nome;
    }
 
-   public PersonagemFacil getpFacil() {
+   public Personagem getpFacil() {
       return this.pFacil;
    }
 
-   public void setpFacil(PersonagemFacil pFacil) {
+   public void setpFacil(Personagem pFacil) {
       this.pFacil = pFacil;
    }
 
-   public PersonagemDificil getpDificil() {
+   public Personagem getpDificil() {
       return this.pDificil;
    }
 
-   public void setpDificil(PersonagemDificil pDificil) {
+   public void setpDificil(Personagem pDificil) {
       this.pDificil = pDificil;
    }
 

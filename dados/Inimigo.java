@@ -1,103 +1,72 @@
 package dados;
 
-import java.awt.Image;
-import java.awt.Rectangle;
-import java.awt.image.ImageObserver;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Random;
-import javax.swing.ImageIcon;
 
-public class Inimigo {
-   private Image imagem;
-   private int x;
-   private int y;
-   private int altura;
-   private int largura;
-   private boolean isVisivel;
-   private String tipo;
-   private String arquivo;
-   private static int ale;
-   private static final int LARGURA_TELA = 640;
+public class Inimigo extends Sprite {
    private static final int VELOCIDADE = 1;
 
-   public Inimigo(int x, int y, String arquivo, String tipo) {
-      Random gera = new Random();
+   private String tipo;
+   private String arquivo;
+   private final boolean atira;
+   private final List<Tiro> tiros;
+
+   public Inimigo(int x, int y, String arquivo, String tipo, boolean atira) {
       this.tipo = tipo;
+      this.atira = atira;
+      this.tiros = atira ? new ArrayList<>() : Collections.emptyList();
+      Random gera = new Random();
       if (!tipo.equals("Boss")) {
-         ale = gera.nextInt(5) + 1;
-         if (ale == 1) {
-            arquivo = "Gráficos\\Inimigo_Agua.png";
-         }
-
-         if (ale == 2) {
-            arquivo = "Gráficos\\Inimigo_Fogo.png";
-         }
-
-         if (ale == 3) {
-            arquivo = "Gráficos\\Inimigo_Ar.png";
-         }
-
-         if (ale == 4) {
-            arquivo = "Gráficos\\Inimigo_Elet.png";
-         }
-
-         if (ale == 5) {
-            arquivo = "Gráficos\\Inimigo_Terra.png";
+         switch (gera.nextInt(5)) {
+            case 0:
+               arquivo = "Gráficos\\Inimigo_Agua.png";
+               break;
+            case 1:
+               arquivo = "Gráficos\\Inimigo_Fogo.png";
+               break;
+            case 2:
+               arquivo = "Gráficos\\Inimigo_Ar.png";
+               break;
+            case 3:
+               arquivo = "Gráficos\\Inimigo_Elet.png";
+               break;
+            default:
+               arquivo = "Gráficos\\Inimigo_Terra.png";
          }
       }
 
       this.setArquivo(arquivo);
-      this.x = x - 25;
-      this.y = y;
-      ImageIcon adds = new ImageIcon(arquivo);
-      this.imagem = adds.getImage();
-      this.altura = this.imagem.getHeight((ImageObserver)null);
-      this.largura = this.imagem.getWidth((ImageObserver)null);
-      this.isVisivel = true;
+      this.setX(x - 25);
+      this.setY(y);
+      super.carregarImagem(arquivo);
    }
 
    public void movimentar() {
-      if (this.x < 0) {
-         this.x = getLarguraTela();
+      if (this.getX() < 0) {
+         this.setX(LARGURA_TELA);
       } else {
-         this.x -= getVelocidade();
+         this.setX(this.getX() - VELOCIDADE);
       }
 
+      if (this.atira) {
+         this.atirar();
+         if (!this.tiros.isEmpty()) {
+            this.tiros.get(0).setSec(true);
+         }
+      }
    }
 
-   public Rectangle getBounds() {
-      return new Rectangle(this.x, this.y, this.largura, this.altura);
+   private void atirar() {
+      Tiro tI = new Tiro(this.getX(), this.getY(), "Gráficos\\Dark.png", "Inimigo");
+      tI.setX(tI.getX() + 35);
+      tI.setY(tI.getY() + 10);
+      this.tiros.add(tI);
    }
 
-   public Image getImagem() {
-      return this.imagem;
-   }
-
-   public void setImagem(Image imagem) {
-      this.imagem = imagem;
-   }
-
-   public int getX() {
-      return this.x;
-   }
-
-   public void setX(int x) {
-      this.x = x;
-   }
-
-   public int getY() {
-      return this.y;
-   }
-
-   public void setY(int y) {
-      this.y = y;
-   }
-
-   public boolean isVisivel() {
-      return this.isVisivel;
-   }
-
-   public void setVisivel(boolean isVisivel) {
-      this.isVisivel = isVisivel;
+   public List<Tiro> getTiros() {
+      return this.tiros;
    }
 
    public String getTipo() {
@@ -109,27 +78,11 @@ public class Inimigo {
    }
 
    public static int getLarguraTela() {
-      return 640;
+      return LARGURA_TELA;
    }
 
    public static int getVelocidade() {
-      return 1;
-   }
-
-   public int getAltura() {
-      return this.altura;
-   }
-
-   public void setAltura(int altura) {
-      this.altura = altura;
-   }
-
-   public int getLargura() {
-      return this.largura;
-   }
-
-   public void setLargura(int largura) {
-      this.largura = largura;
+      return VELOCIDADE;
    }
 
    public String getArquivo() {
