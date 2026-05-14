@@ -133,6 +133,10 @@ public class Stage extends JPanel implements ActionListener {
                   if (this.bossHit == BOSS_HIT_BOSS_DEFEATED) {
                      enemy.setVisible(false);
                   }
+               } else if (this.difficulty == Difficulty.HARD) {
+                  if (shot.getElement() == enemy.getElement()) {
+                     enemy.setVisible(false);
+                  }
                } else {
                   enemy.setVisible(false);
                }

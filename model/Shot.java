@@ -6,10 +6,13 @@ public class Shot extends Sprite {
    private static final int SPEED = 3;
    private boolean secondary;
    private String kind;
+   /** Player shot element; null for enemy projectiles. */
+   private final Element element;
 
-   public Shot(int x, int y, String filePath, String kind) {
+   public Shot(int x, int y, String filePath, String kind, Element element) {
       super.loadImage(filePath);
       this.kind = kind;
+      this.element = element;
       this.setX(x);
       this.setY(y);
       this.secondary = false;
@@ -37,5 +40,9 @@ public class Shot extends Sprite {
 
    public void setSecondary(boolean secondary) {
       this.secondary = secondary;
+   }
+
+   public Element getElement() {
+      return this.element;
    }
 }

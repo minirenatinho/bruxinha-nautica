@@ -26,6 +26,7 @@ public class Player {
    private int height;
    private Card[] deck;
    private String shotTexturePath = "graphics\\Water.png";
+   private Element shotElement = Element.WATER;
 
    public Player(Difficulty difficulty) {
       this.difficulty = difficulty;
@@ -44,6 +45,7 @@ public class Player {
       this.deck[4] = new Card("graphics\\Card_Earth.png", "graphics\\Card_EarthS.png", 50, 1);
       this.deck[0].setSelected(true);
       this.alive = true;
+      this.updateShotTextureFromSelectedCard();
    }
 
    public void keyPressed(KeyEvent keyEvent) {
@@ -75,19 +77,24 @@ public class Player {
       Card[] d = this.deck;
       if (d[0].isSelected()) {
          this.setShotTexturePath("graphics\\Water.png");
+         this.shotElement = Element.WATER;
       } else if (d[1].isSelected()) {
          this.setShotTexturePath("graphics\\Fire.png");
+         this.shotElement = Element.FIRE;
       } else if (d[2].isSelected()) {
          this.setShotTexturePath("graphics\\Air.png");
+         this.shotElement = Element.AIR;
       } else if (d[3].isSelected()) {
          this.setShotTexturePath("graphics\\Electric.png");
+         this.shotElement = Element.ELECTRIC;
       } else if (d[4].isSelected()) {
          this.setShotTexturePath("graphics\\Earth.png");
+         this.shotElement = Element.EARTH;
       }
    }
 
    public void shoot() {
-      this.shots.add(new Shot(this.x + this.width - 20, this.y - 20, this.shotTexturePath, ""));
+      this.shots.add(new Shot(this.x + this.width - 20, this.y - 20, this.shotTexturePath, "", this.shotElement));
    }
 
    protected void markFirstShotsAsSecondary(int maxCount) {

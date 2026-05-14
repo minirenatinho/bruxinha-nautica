@@ -10,6 +10,7 @@ public class Enemy extends Sprite {
 
    private String kind;
    private String filePath;
+   private Element element;
    private final boolean shoots;
    private final List<Shot> shots;
 
@@ -22,19 +23,26 @@ public class Enemy extends Sprite {
          switch (random.nextInt(5)) {
             case 0:
                filePath = "graphics\\Enemy_Water.png";
+               this.element = Element.WATER;
                break;
             case 1:
                filePath = "graphics\\Enemy_Fire.png";
+               this.element = Element.FIRE;
                break;
             case 2:
                filePath = "graphics\\Enemy_Air.png";
+               this.element = Element.AIR;
                break;
             case 3:
                filePath = "graphics\\Enemy_Electric.png";
+               this.element = Element.ELECTRIC;
                break;
             default:
                filePath = "graphics\\Enemy_Earth.png";
+               this.element = Element.EARTH;
          }
+      } else {
+         this.element = null;
       }
 
       this.setFilePath(filePath);
@@ -59,7 +67,7 @@ public class Enemy extends Sprite {
    }
 
    private void shoot() {
-      Shot shot = new Shot(this.getX(), this.getY(), "graphics\\Dark.png", "Enemy");
+      Shot shot = new Shot(this.getX(), this.getY(), "graphics\\Dark.png", "Enemy", null);
       shot.setX(shot.getX() + 35);
       shot.setY(shot.getY() + 10);
       this.shots.add(shot);
@@ -91,5 +99,10 @@ public class Enemy extends Sprite {
 
    public void setFilePath(String filePath) {
       this.filePath = filePath;
+   }
+
+   /** {@code null} for the boss; set for elemental dragons. */
+   public Element getElement() {
+      return this.element;
    }
 }
