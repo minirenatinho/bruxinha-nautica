@@ -1,13 +1,13 @@
 package gui;
 
-import fachada.Fachada;
+import facade.GameFacade;
 import javax.swing.JFrame;
 
-public class LittleProJavaIP extends JFrame {
-   public LittleProJavaIP() {
-      Fachada fachada = new Fachada();
-      this.add(fachada.iniciarFacil());
-      this.setTitle("Little ProJava IP");
+public class Application extends JFrame {
+   public Application() {
+      GameFacade gameFacade = new GameFacade();
+      this.add(gameFacade.startEasy());
+      this.setTitle("Bruxinha Náutica");
       this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
       this.setSize(640, 480);
       this.setLocationRelativeTo(null);
@@ -16,6 +16,6 @@ public class LittleProJavaIP extends JFrame {
    }
 
    public static void main(String[] args) {
-      new LittleProJavaIP();
+      new Application();
    }
 }
