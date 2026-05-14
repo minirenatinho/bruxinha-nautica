@@ -21,7 +21,7 @@ public class Shot extends Sprite {
    public void move() {
       int d = "Enemy".equals(this.kind) ? -SPEED : SPEED;
       this.setX(this.getX() + d);
-      if (this.getX() > SCREEN_WIDTH) {
+      if (this.getX() > SCREEN_WIDTH || this.getX() < 0) {
          this.setVisible(false);
       }
    }

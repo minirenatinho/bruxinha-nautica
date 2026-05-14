@@ -115,6 +115,16 @@ public class Stage extends JPanel implements ActionListener {
             enemy.setVisible(false);
             this.inGame = false;
          }
+
+         List<Shot> enemyShots = enemy.getShots();
+         for (int j = 0; j < enemyShots.size(); ++j) {
+            Shot enemyShot = enemyShots.get(j);
+            if (enemyShot.isVisible() && playerBounds.intersects(enemyShot.getBounds())) {
+               this.player.setAlive(false);
+               enemyShot.setVisible(false);
+               this.inGame = false;
+            }
+         }
       }
 
       List<Shot> shots = this.player.getShots();
@@ -200,6 +210,21 @@ public class Stage extends JPanel implements ActionListener {
       if (this.enemies.size() == 0 && this.bossPhase) {
          this.initBoss();
          this.bossPhase = false;
+      } else if (this.enemies.size() == 0 && !this.bossPhase) {
+         if (this.stageNumber < STAGE_NUMBER_MAX) {
+            java.awt.Window window = javax.swing.SwingUtilities.getWindowAncestor(this);
+            if (window instanceof javax.swing.JFrame) {
+               javax.swing.JFrame frame = (javax.swing.JFrame) window;
+               frame.getContentPane().removeAll();
+               Stage nextStage = new Stage(this.difficulty, this.stageNumber + 1);
+               frame.add(nextStage);
+               nextStage.requestFocusInWindow();
+               frame.revalidate();
+               frame.repaint();
+               this.timer.stop();
+               return;
+            }
+         }
       }
 
       for (int i = 0; i < this.enemies.size(); ++i) {
@@ -228,7 +253,7 @@ public class Stage extends JPanel implements ActionListener {
 
       List<Shot> shots = this.player.getShots();
 
-      for (int i = 0; i < shots.size(); ++i) {
+      for (int i = shots.size() - 1; i >= 0; --i) {
          Shot shot = shots.get(i);
          if (shot.isVisible()) {
             shot.move();
@@ -237,10 +262,10 @@ public class Stage extends JPanel implements ActionListener {
          }
       }
 
-      for (int j = 0; j < this.enemies.size(); ++j) {
+      for (int j = this.enemies.size() - 1; j >= 0; --j) {
          List<Shot> enemyShots = this.enemies.get(j).getShots();
 
-         for (int i = 0; i < enemyShots.size(); ++i) {
+         for (int i = enemyShots.size() - 1; i >= 0; --i) {
             Shot enemyShot = enemyShots.get(i);
             if (enemyShot.isVisible()) {
                enemyShot.move();
@@ -251,7 +276,7 @@ public class Stage extends JPanel implements ActionListener {
          }
       }
 
-      for (int i = 0; i < this.enemies.size(); ++i) {
+      for (int i = this.enemies.size() - 1; i >= 0; --i) {
          Enemy enemy = this.enemies.get(i);
          if (enemy.isVisible()) {
             enemy.move();
