@@ -26,7 +26,6 @@ public class Stage extends JPanel implements ActionListener {
    private static final int STAGE_NUMBER_MAX = 2;
    private static final int STAGE_WITH_ENEMY_SHOTS = 2;
    private static final int BOSS_HIT_INITIAL = 49;
-   private static final int BOSS_HIT_SHOW_NEXT_STAGE = 0;
    private static final int BOSS_HIT_BOSS_DEFEATED = -1;
 
    private final Difficulty difficulty;
@@ -288,7 +287,6 @@ public class Stage extends JPanel implements ActionListener {
             if (enemyShot.isVisible()) {
                enemyShot.move();
             } else {
-               enemyShot.setVisible(false);
                enemyShots.remove(i);
             }
          }
@@ -308,39 +306,4 @@ public class Stage extends JPanel implements ActionListener {
       this.repaint();
    }
 
-   public boolean isInGame() {
-      return this.inGame;
-   }
-
-   public void setInGame(boolean inGame) {
-      this.inGame = inGame;
-   }
-
-   public int getStageNumber() {
-      return this.stageNumber;
-   }
-
-   public int[][] getCoordinates() {
-      return this.coordinates;
-   }
-
-   public void setCoordinates(int[][] coordinates) {
-      this.coordinates = coordinates;
-   }
-
-   public int getBossHit() {
-      return this.bossHit;
-   }
-
-   public void setBossHit(int bossHit) {
-      this.bossHit = bossHit;
-   }
-
-   public boolean shouldShowNextStage() {
-      return this.bossHit == BOSS_HIT_SHOW_NEXT_STAGE;
-   }
-
-   public void setBackground(ImageIcon image) {
-      this.background = image.getImage();
-   }
 }

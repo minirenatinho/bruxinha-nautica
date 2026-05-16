@@ -10,7 +10,6 @@ public class Enemy extends Sprite {
    private static final int BOSS_SHOOT_INTERVAL = 30;
 
    private String kind;
-   private String filePath;
    private Element element;
    private final boolean shoots;
    private final List<Shot> shots;
@@ -47,7 +46,6 @@ public class Enemy extends Sprite {
          this.element = null;
       }
 
-      this.setFilePath(filePath);
       this.setX(x - 25);
       this.setY(y);
       super.loadImage(filePath);
@@ -100,26 +98,6 @@ public class Enemy extends Sprite {
 
    public String getKind() {
       return this.kind;
-   }
-
-   public void setKind(String kind) {
-      this.kind = kind;
-   }
-
-   public static int getScreenWidth() {
-      return SCREEN_WIDTH;
-   }
-
-   public static int getSpeed() {
-      return SPEED;
-   }
-
-   public String getFilePath() {
-      return this.filePath;
-   }
-
-   public void setFilePath(String filePath) {
-      this.filePath = filePath;
    }
 
    /** {@code null} for the boss; set for elemental dragons. */

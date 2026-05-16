@@ -1,7 +1,5 @@
 package model;
 
-import javax.swing.ImageIcon;
-
 public class Shot extends Sprite {
    private static final int SPEED = 3;
    private boolean secondary;
@@ -24,14 +22,6 @@ public class Shot extends Sprite {
       if (this.getX() > SCREEN_WIDTH || this.getX() < 0) {
          this.setVisible(false);
       }
-   }
-
-   public static int getScreenWidth() {
-      return SCREEN_WIDTH;
-   }
-
-   public static int getSpeed() {
-      return SPEED;
    }
 
    public boolean isSecondary() {

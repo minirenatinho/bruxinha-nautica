@@ -17,7 +17,6 @@ public class Player {
    private Image image;
    private int x;
    private int y;
-   private int velocityX;
    private int velocityY;
    private boolean thrusting;
    private boolean alive;
@@ -134,7 +133,6 @@ public class Player {
    }
 
    public void move() {
-      this.x += this.velocityX;
       this.y += this.velocityY;
       if (this.y > 400) {
          this.y = 400;
@@ -184,14 +182,6 @@ public class Player {
       this.y = y;
    }
 
-   public int getVelocityX() {
-      return this.velocityX;
-   }
-
-   public void setVelocityX(int velocityX) {
-      this.velocityX = velocityX;
-   }
-
    public int getVelocityY() {
       return this.velocityY;
    }
@@ -220,32 +210,16 @@ public class Player {
       return this.shots;
    }
 
-   public void setShots(List<Shot> shots) {
-      this.shots = shots;
-   }
-
    public int getWidth() {
       return this.width;
-   }
-
-   public void setWidth(int width) {
-      this.width = width;
    }
 
    public int getHeight() {
       return this.height;
    }
 
-   public void setHeight(int height) {
-      this.height = height;
-   }
-
    public Card[] getDeck() {
       return this.deck;
-   }
-
-   public void setDeck(Card[] deck) {
-      this.deck = deck;
    }
 
    public String getShotTexturePath() {

@@ -6,7 +6,6 @@ import javax.swing.ImageIcon;
 public class Card {
    private Image normalImage;
    private Image selectedImage;
-   private String path;
    private boolean selected;
    private int x;
    private int y;
@@ -14,7 +13,6 @@ public class Card {
    public Card(String normalPath, String selectedPath, int x, int y) {
       this.x = x;
       this.y = y;
-      this.path = normalPath;
       ImageIcon icon = new ImageIcon(normalPath);
       this.normalImage = icon.getImage();
       ImageIcon iconS = new ImageIcon(selectedPath);
@@ -24,10 +22,6 @@ public class Card {
 
    public Image getNormalImage() {
       return this.normalImage;
-   }
-
-   public void setNormalImage(Image normalImage) {
-      this.normalImage = normalImage;
    }
 
    public boolean isSelected() {
@@ -58,15 +52,4 @@ public class Card {
       return this.selectedImage;
    }
 
-   public void setSelectedImage(Image selectedImage) {
-      this.selectedImage = selectedImage;
-   }
-
-   public String getPath() {
-      return this.path;
-   }
-
-   public void setPath(String path) {
-      this.path = path;
-   }
 }
