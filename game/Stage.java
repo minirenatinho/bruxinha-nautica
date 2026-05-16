@@ -130,6 +130,25 @@ public class Stage extends JPanel implements ActionListener {
       List<Shot> shots = this.player.getShots();
 
       for (int i = 0; i < shots.size(); ++i) {
+         Shot playerShot = shots.get(i);
+         if (!playerShot.isVisible()) continue;
+         Rectangle playerShotBounds = playerShot.getBounds();
+
+         for (int e = 0; e < this.enemies.size(); ++e) {
+            List<Shot> enemyShots = this.enemies.get(e).getShots();
+            for (int j = 0; j < enemyShots.size(); ++j) {
+               Shot enemyShot = enemyShots.get(j);
+               if (enemyShot.isVisible() && playerShotBounds.intersects(enemyShot.getBounds())) {
+                  playerShot.setVisible(false);
+                  enemyShot.setVisible(false);
+                  break;
+               }
+            }
+            if (!playerShot.isVisible()) break;
+         }
+      }
+
+      for (int i = 0; i < shots.size(); ++i) {
          Shot shot = shots.get(i);
          Rectangle shotBounds = shot.getBounds();
 
