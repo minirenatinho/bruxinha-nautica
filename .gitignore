@@ -30,3 +30,5 @@ replay_pid*
 
 # keeping the old jar file with july 2014 version
 !LittleProJava.jar
+
+.claude/
