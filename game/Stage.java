@@ -234,9 +234,8 @@ public class Stage extends JPanel implements ActionListener {
             java.awt.Window window = javax.swing.SwingUtilities.getWindowAncestor(this);
             if (window instanceof javax.swing.JFrame) {
                javax.swing.JFrame frame = (javax.swing.JFrame) window;
-               frame.getContentPane().removeAll();
                Stage nextStage = new Stage(this.difficulty, this.stageNumber + 1);
-               frame.add(nextStage);
+               frame.setContentPane(nextStage);
                nextStage.requestFocusInWindow();
                frame.revalidate();
                frame.repaint();
